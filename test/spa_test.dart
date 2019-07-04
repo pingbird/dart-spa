@@ -37,8 +37,8 @@ Future<bool> testCsv(String fileName) async {
       void check(double res, int idx) {
         if (!doubleEq(res, double.parse(row[idx]))) {
           throw TestFailure(
-              "Test failed at line $lineNum\n"
-                  "Row $idx: expected ${row[idx]} but got $res"
+            "Test failed at line $lineNum\n"
+              "Row $idx: expected ${row[idx]} but got $res"
           );
         }
       }
@@ -56,10 +56,8 @@ Future<bool> testCsv(String fileName) async {
   return true;
 }
 
-void main() {
-  group('Reference test data', () async {
-    if (!await testCsv("test/dataset.csv")) {
-      await testCsv("test/dataset_small.csv");
-    }
-  });
+Future main() async {
+  if (!await testCsv("test/dataset.csv")) {
+    await testCsv("test/dataset_small.csv");
+  }
 }
