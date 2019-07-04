@@ -57,6 +57,14 @@ Future<bool> testCsv(String fileName) async {
 }
 
 Future main() async {
+  // The full dataset is 1,000,000 rows containing randomly generated input
+  // sets along with calculation results from the NREL C Implementation of SPA.
+  //
+  // It is not included in this repository due to it's size (280 MB)
+  // but you download it here: https://i.tst.sh/spa/dataset.csv
+  //
+  // If dataset.csv is not found, fall back to the smaller version
+  // which contains the first 1,000 rows of the full dataset.
   if (!await testCsv("test/dataset.csv")) {
     await testCsv("test/dataset_small.csv");
   }
