@@ -1,0 +1,16 @@
+name: spa
+description: Solar Positioning Algorithm used for finding the position of the sun at any point on earth.
+version: 1.0.0
+homepage: https://github.com/PixelToast/dart-spa
+author: Andre Lipke <andre.lipke@gmail.com>
+
+environment:
+  sdk: '>=2.2.0 <3.0.0'
+
+dependencies:
+  tuple: any
+  meta: any
+
+dev_dependencies:
+  pedantic: ^1.0.0
+  test: ^1.0.0
