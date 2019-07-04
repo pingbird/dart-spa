@@ -157,14 +157,14 @@ class SPAIntermediate {
   /// Geocentric latitude in degrees
   double beta;
 
-  /// [
+  /// (
   ///   Mean elongation (moon-sun) in degrees
   ///   Mean anomaly (sun) in degrees
   ///   Mean anomaly (moon) in degrees
   ///   Argument latitude (moon) in degrees
   ///   Ascending longitude (moon) in degrees
-  /// ]
-  List<double> x;
+  /// )
+  Tuple5<double, double, double, double, double> x;
 
   /// Nutation longitude in degrees
   double delPsi;
@@ -685,21 +685,39 @@ double earthPeriodicTermSum(
 ) =>
   terms.fold(0, (s, e) => s + e.item1 * cos(e.item2 + e.item3 * jme));
 
-double earthValues(Iterable<double> termSum, double jme) {
-  int i = 0;
-  return termSum.fold(0, (s, e) => s + e * pow(jme, i++)) / 1e8;
+double earthValues(List<double> termSum, double jme) {
+  var sum = 0.0;
+
+  for (int i = 0; i < termSum.length; i++) {
+    sum += termSum[i] * pow(jme, i);
+  }
+
+  return sum / 1e8;
 }
 
-double earthHeliocentricLongitude(double jme) =>
-  limitDeg(_r2d(earthValues(lterms.map((e) =>
-    earthPeriodicTermSum(e, jme)
-  ), jme)));
+double earthHeliocentricLongitude(double jme) {
+  var sum = 0.0;
+  for (int i = 0; i < lterms.length; i++) {
+    sum += earthPeriodicTermSum(lterms[i], jme) * pow(jme, i);
+  }
+  return limitDeg(_r2d(sum / 1e8));
+}
 
-double earthHeliocentricLatitude(double jme) =>
-  _r2d(earthValues(bterms.map((e) => earthPeriodicTermSum(e, jme)), jme));
+double earthHeliocentricLatitude(double jme) {
+  var sum = 0.0;
+  for (int i = 0; i < bterms.length; i++) {
+    sum += earthPeriodicTermSum(bterms[i], jme) * pow(jme, i);
+  }
+  return _r2d(sum / 1e8);
+}
 
-double earthRadiusVector(double jme) =>
-  earthValues(rterms.map((e) => earthPeriodicTermSum(e, jme)), jme);
+double earthRadiusVector(double jme) {
+  var sum = 0.0;
+  for (int i = 0; i < rterms.length; i++) {
+    sum += earthPeriodicTermSum(rterms[i], jme) * pow(jme, i);
+  }
+  return sum / 1e8;
+}
 
 double geocentricLongitude(double l) {
   l += 180;
@@ -724,14 +742,14 @@ double argumentLatitudeMoon(double jce) =>
 double ascendingLongitudeMoon(double jce) =>
   thirdOrderPolynomial(1 / 450000.0, 0.0020708, -1934.136261, 125.04452, jce);
 
-double xyTermSummation(int i, List<double> x) =>
-  x[0] * yterms[i].item1 +
-  x[1] * yterms[i].item2 +
-  x[2] * yterms[i].item3 +
-  x[3] * yterms[i].item4 +
-  x[4] * yterms[i].item5;
+double xyTermSummation(int i, Tuple5<double, double, double, double, double> x) =>
+  x.item1 * yterms[i].item1 +
+  x.item2 * yterms[i].item2 +
+  x.item3 * yterms[i].item3 +
+  x.item4 * yterms[i].item4 +
+  x.item5 * yterms[i].item5;
 
-Tuple2<double, double> nutationLongAndObliquity(double jce, List<double> x) {
+Tuple2<double, double> nutationLongAndObliquity(double jce, Tuple5<double, double, double, double, double> x) {
   var sumPsi = 0.0;
   var sumEps = 0.0;
 
@@ -919,13 +937,13 @@ void calculateGeoSun(
   it.theta = geocentricLongitude(it.l);
   it.beta = geocentricLatitude(it.b);
 
-  it.x = [
+  it.x = Tuple5(
     meanElongationMoonSun(it.jce),
     meanAnomalySun(it.jce),
     meanAnomalyMoon(it.jce),
     argumentLatitudeMoon(it.jce),
     ascendingLongitudeMoon(it.jce),
-  ];
+  );
 
   var dl = nutationLongAndObliquity(it.jce, it.x);
   it.delPsi = dl.item1;

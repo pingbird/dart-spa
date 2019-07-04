@@ -1,10 +1,11 @@
 import 'package:spa/spa.dart';
 
 void main() {
-  // This checksum ensures parts of SPA aren't optimized out.
+  // This checksum ensures parts of SPA aren't optimized out and that results
+  // are consistent across all platforms tested.
   int checksum = 0;
   void volatile(double v) {
-    checksum = (checksum + v.floor()) % 64;
+    checksum = (checksum + (v * 100).floor()) % 65536;
   }
 
   double round(int count) {
