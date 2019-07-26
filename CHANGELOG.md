@@ -1,3 +1,8 @@
+## 1.1.0
+
+- Performance improvements
+- Adjusted dependency constraints
+
 ## 1.0.0
 
 - First release!
