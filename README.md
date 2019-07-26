@@ -46,6 +46,8 @@ sunrise: 5.994654066296624
 sunset: 21.21272791301299
 ```
 
+Zenith will be less than 90 degrees when it's daytime.
+
 ## Documentation
 
 Documentation can be found at https://pub.dev/documentation/spa/latest/
