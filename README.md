@@ -11,7 +11,7 @@ Given an observers coordinates and DateTime it can calculate the position of the
 Add the package to your `pubspec.yaml`:
 ```yaml
 dependencies:
-  spa: ^1.0.0
+  spa: ^1.1.0
 ```
 
 ## Example
