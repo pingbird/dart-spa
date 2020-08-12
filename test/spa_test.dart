@@ -61,7 +61,7 @@ Future main() async {
   // sets along with calculation results from the NREL C Implementation of SPA.
   //
   // It is not included in this repository due to it's size (280 MB)
-  // but you download it here: https://i.tst.sh/spa/dataset.csv
+  // but you download it here: https://i.tst.sh/spa/dataset.zip
   //
   // If dataset.csv is not found, fall back to the smaller version
   // which contains the first 1,000 rows of the full dataset.
