@@ -4,81 +4,20 @@ import 'package:meta/meta.dart';
 
 /// Input parameters for the SPA algorithm.
 class SPAParams {
+  /// Creates input parameters for the SPA algorithm.
   SPAParams({
-    /// Observer time
-    ///
-    /// Must be within -2000 to 6000 years.
     @required this.time,
-
-    /// Overrides the timezone provided in [time].
-    ///
-    /// Must be within -18 to 18 hours.
     this.timeZone,
-
-    /// Overrides seconds / millis / micros in [time].
-    ///
-    /// Must be within 0 to 60 seconds.
     this.second,
-
-    /// Fractional second difference between UTC and UT.
-    ///
-    /// Used to adjust UTC for earth's irregular rotation rate and is derived
-    /// from observation only and is reported in this bulletin:
-    /// http://maia.usno.navy.mil/ser7/ser7.dat, where deltaUtl = DUT1
-    ///
-    /// Must be between -1 to 1 second.
     this.deltaUtl = 0,
-
-    /// Difference between earth rotation time and terrestrial time.
-    ///
-    /// It is derived from observation only and is reported in this
-    /// bulletin: http://maia.usno.navy.mil/ser7/ser7.dat,
-    /// where deltaT = 32.184 + (TAI-UTC) - DUT1
-    ///
-    /// Must be between -8000 to 8000 seconds.
     this.deltaT = 0,
-
-    /// Observer longitude in degrees.
-    ///
-    /// Must be within -180 to 180 degrees.
     @required this.longitude,
-
-    /// Observer latitude in degrees.
-    ///
-    /// Must be within -90 to 90 degrees.
     @required this.latitude,
-
-    /// Observer elevation in meters.
-    ///
-    /// Must be above -6500000 meters.
     this.elevation = 0,
-
-    /// Average pressure in millibars.
-    ///
-    /// Must be between 0 to 5000 millibars.
     this.pressure = 1013,
-
-    /// Average temperature in degrees Celsius.
-    ///
-    /// Must be between -273 and 6000 degrees Celsius.
     this.temperature = 15,
-
-    /// Surface slope from the horizontal plane in degrees.
-    ///
-    /// Must be between -360 to 360.
     this.slope = 0,
-
-    /// Surface azimuth rotation in degrees.
-    ///
-    /// Measured from south to projection surface normal on horizontal plane,
-    /// negative east.
-    ///
-    /// Must be between -360 to 360 degrees.
     this.azmRotation = 0,
-
-    /// Atmospheric refraction at sunrise and sunset in degrees.
-    ///
-    /// Must be between -5 to 5 degrees.
     this.atmosRefract = 0.5667,
   }) {
     timeZone ??= time.timeZoneOffset.inHours.toDouble();
@@ -114,20 +53,80 @@ class SPAParams {
     azmRotation = list.length < 16 ? 0 : list[15].toDouble(),
     atmosRefract = list.length < 17 ? 0 : list[16].toDouble();
 
+  /// Observer time
+  ///
+  /// Must be within -2000 to 6000 years.
   DateTime time;
+
+  /// Overrides the timezone provided in [time].
+  ///
+  /// Must be within -18 to 18 hours.
   double second;
+
+  /// Overrides seconds / millis / micros in [time].
+  ///
+  /// Must be within 0 to 60 seconds.
   double timeZone;
 
+  /// Fractional second difference between UTC and UT.
+  ///
+  /// Used to adjust UTC for earth's irregular rotation rate and is derived
+  /// from observation only and is reported in this bulletin:
+  /// http://maia.usno.navy.mil/ser7/ser7.dat, where deltaUtl = DUT1
+  ///
+  /// Must be between -1 to 1 second.
   double deltaUtl;
+
+  /// Difference between earth rotation time and terrestrial time.
+  ///
+  /// It is derived from observation only and is reported in this
+  /// bulletin: http://maia.usno.navy.mil/ser7/ser7.dat,
+  /// where deltaT = 32.184 + (TAI-UTC) - DUT1
+  ///
+  /// Must be between -8000 to 8000 seconds.
   double deltaT;
 
+  /// Observer longitude in degrees.
+  ///
+  /// Must be within -180 to 180 degrees.
   double longitude;
+
+  /// Observer latitude in degrees.
+  ///
+  /// Must be within -90 to 90 degrees.
   double latitude;
+
+  /// Observer elevation in meters.
+  ///
+  /// Must be above -6500000 meters.
   double elevation;
+
+  /// Average pressure in millibars.
+  ///
+  /// Must be between 0 to 5000 millibars.
   double pressure;
+
+  /// Average temperature in degrees Celsius.
+  ///
+  /// Must be between -273 and 6000 degrees Celsius.
   double temperature;
+
+  /// Surface slope from the horizontal plane in degrees.
+  ///
+  /// Must be between -360 to 360.
   double slope;
+
+  /// Surface azimuth rotation in degrees.
+  ///
+  /// Measured from south to projection surface normal on horizontal plane,
+  /// negative east.
+  ///
+  /// Must be between -360 to 360 degrees.
   double azmRotation;
+
+  /// Atmospheric refraction at sunrise and sunset in degrees.
+  ///
+  /// Must be between -5 to 5 degrees.
   double atmosRefract;
 }
 
@@ -197,9 +196,9 @@ class SPAIntermediate {
   double delAlpha;
   /// Topocentric sun declination in degrees
   double delPrime;
-  // Topocentric sun right ascension in degrees
+  /// Topocentric sun right ascension in degrees
   double alphaPrime;
-  // Topocentric local hour angle in degrees
+  /// Topocentric local hour angle in degrees
   double hPrime;
 
   /// Topocentric elevation angle uncorrected in degrees
@@ -209,7 +208,7 @@ class SPAIntermediate {
   /// Topocentric elevation angle corrected in degrees
   double e;
 
-  // Equation of time in minutes
+  /// Equation of time in minutes
   double eot;
   /// Sunrise hour angle in degrees
   double srha;
@@ -244,9 +243,9 @@ class SPAOutput {
   double sunset;
 }
 
-double sunRadius = 0.26667;
+double _sunRadius = 0.26667;
 
-const lterms = <List<Tuple3<double, double, double>>>[
+const _lterms = <List<Tuple3<double, double, double>>>[
   [
     Tuple3(175347046.0, 0, 0),
     Tuple3(3341656.0, 4.6692568, 6283.07585),
@@ -390,7 +389,7 @@ const lterms = <List<Tuple3<double, double, double>>>[
   ]
 ];
 
-const bterms = <List<Tuple3<double, double, double>>>[
+const _bterms = <List<Tuple3<double, double, double>>>[
   [
     Tuple3(280.0, 3.199, 84334.662),
     Tuple3(102.0, 5.422, 5507.553),
@@ -404,7 +403,7 @@ const bterms = <List<Tuple3<double, double, double>>>[
   ],
 ];
 
-const rterms = <List<Tuple3<double, double, double>>>[
+const _rterms = <List<Tuple3<double, double, double>>>[
   [
     Tuple3(100013989.0, 0, 0),
     Tuple3(1670700.0, 3.0984635, 6283.07585),
@@ -476,7 +475,7 @@ const rterms = <List<Tuple3<double, double, double>>>[
   ]
 ];
 
-const yterms = <Tuple5<double, double, double, double, double>>[
+const _yterms = <Tuple5<double, double, double, double, double>>[
   Tuple5(0, 0, 0, 0, 1),
   Tuple5(-2, 0, 0, 2, 2),
   Tuple5(0, 0, 0, 2, 2),
@@ -611,14 +610,14 @@ const _peTerms = <Tuple4<double, double, double, double>>[
 double _r2d(double rad) => (180 / pi) * rad;
 double _d2r(double deg) => (pi / 180) * deg;
 
-double limitDeg(double deg) {
+double _limitDeg(double deg) {
   deg /= 360;
   deg = 360 * (deg - deg.floor());
   if (deg < 0) deg += 360;
   return deg;
 }
 
-double limitDeg180pm(double deg) {
+double _limitDeg180pm(double deg) {
   deg /= 360.0;
   deg = 360 * (deg - deg.floor());
   if (deg < -180) deg += 360;
@@ -626,33 +625,33 @@ double limitDeg180pm(double deg) {
   return deg;
 }
 
-double limitDeg180(double deg) {
+double _limitDeg180(double deg) {
   deg /= 180;
   deg = 180 * (deg - deg.floor());
   if (deg < 0) deg += 180;
   return deg;
 }
 
-double limitZero2One(double value) {
+double _limitZero2One(double value) {
   value -= value.floor();
   if (value < 0) value += 1;
   return value;
 }
 
-double limitMinutes(double minutes) {
+double _limitMinutes(double minutes) {
   if (minutes < -20) minutes += 1440;
   if (minutes > 20) minutes += 1440;
   return minutes;
 }
 
-double dayFrac2LocalHr(double dayFrac, double timezone) =>
-  24 * limitZero2One(dayFrac + timezone / 24);
+double _dayFrac2LocalHr(double dayFrac, double timezone) =>
+  24 * _limitZero2One(dayFrac + timezone / 24);
 
-double thirdOrderPolynomial(double a, double b, double c, double d, double x) =>
+double _thirdOrderPolynomial(double a, double b, double c, double d, double x) =>
   ((a * x + b) * x + c) * x + d;
 
-double julianDay(DateTime time, double second, double timeZone, double dut1) {
-  double dayDec = time.day +
+double _julianDay(DateTime time, double second, double timeZone, double dut1) {
+  final dayDec = time.day +
     (time.hour - timeZone + (time.minute + (second + dut1) / 60) / 60) / 24;
 
   int month = time.month;
@@ -668,94 +667,84 @@ double julianDay(DateTime time, double second, double timeZone, double dut1) {
     (30.6001 * (month + 1)).floor() + dayDec - 1524.5;
 
   if (julianDay > 2299160) {
-    int a = year ~/ 100;
+    final a = year ~/ 100;
     julianDay += 2 - a + a ~/ 4;
   }
 
   return julianDay;
 }
 
-double julianCentury(double jd) => (jd - 2451545) / 36525;
-double julianEphemerisDay(double jd, double deltaT) => jd + deltaT / 86400;
-double julianEphemerisCentury(double jde) => (jde - 2451545) / 36525;
-double julianEphemerisMillenium(double jce) => jce / 10;
+double _julianCentury(double jd) => (jd - 2451545) / 36525;
+double _julianEphemerisDay(double jd, double deltaT) => jd + deltaT / 86400;
+double _julianEphemerisCentury(double jde) => (jde - 2451545) / 36525;
+double _julianEphemerisMillenium(double jce) => jce / 10;
 
-double earthPeriodicTermSum(
+double _earthPeriodicTermSum(
   List<Tuple3<double, double, double>> terms, double jme
 ) =>
   terms.fold(0, (s, e) => s + e.item1 * cos(e.item2 + e.item3 * jme));
 
-double earthValues(List<double> termSum, double jme) {
+double _earthHeliocentricLongitude(double jme) {
   var sum = 0.0;
-
-  for (int i = 0; i < termSum.length; i++) {
-    sum += termSum[i] * pow(jme, i);
+  for (int i = 0; i < _lterms.length; i++) {
+    sum += _earthPeriodicTermSum(_lterms[i], jme) * pow(jme, i);
   }
-
-  return sum / 1e8;
+  return _limitDeg(_r2d(sum / 1e8));
 }
 
-double earthHeliocentricLongitude(double jme) {
+double _earthHeliocentricLatitude(double jme) {
   var sum = 0.0;
-  for (int i = 0; i < lterms.length; i++) {
-    sum += earthPeriodicTermSum(lterms[i], jme) * pow(jme, i);
-  }
-  return limitDeg(_r2d(sum / 1e8));
-}
-
-double earthHeliocentricLatitude(double jme) {
-  var sum = 0.0;
-  for (int i = 0; i < bterms.length; i++) {
-    sum += earthPeriodicTermSum(bterms[i], jme) * pow(jme, i);
+  for (int i = 0; i < _bterms.length; i++) {
+    sum += _earthPeriodicTermSum(_bterms[i], jme) * pow(jme, i);
   }
   return _r2d(sum / 1e8);
 }
 
-double earthRadiusVector(double jme) {
+double _earthRadiusVector(double jme) {
   var sum = 0.0;
-  for (int i = 0; i < rterms.length; i++) {
-    sum += earthPeriodicTermSum(rterms[i], jme) * pow(jme, i);
+  for (int i = 0; i < _rterms.length; i++) {
+    sum += _earthPeriodicTermSum(_rterms[i], jme) * pow(jme, i);
   }
   return sum / 1e8;
 }
 
-double geocentricLongitude(double l) {
+double _geocentricLongitude(double l) {
   l += 180;
   if (l >= 360) l -= 360;
   return l;
 }
 
-double geocentricLatitude(double b) => -b;
+double _geocentricLatitude(double b) => -b;
 
-double meanElongationMoonSun(double jce) =>
-  thirdOrderPolynomial(1 / 189474, -0.0019142, 445267.11148, 297.85036, jce);
+double _meanElongationMoonSun(double jce) =>
+  _thirdOrderPolynomial(1 / 189474, -0.0019142, 445267.11148, 297.85036, jce);
 
-double meanAnomalySun(double jce) =>
-  thirdOrderPolynomial(-1 / 300000.0, -0.0001603, 35999.05034, 357.52772, jce);
+double _meanAnomalySun(double jce) =>
+  _thirdOrderPolynomial(-1 / 300000.0, -0.0001603, 35999.05034, 357.52772, jce);
 
-double meanAnomalyMoon(double jce) =>
-  thirdOrderPolynomial(1 / 56250.0, 0.0086972, 477198.867398, 134.96298, jce);
+double _meanAnomalyMoon(double jce) =>
+  _thirdOrderPolynomial(1 / 56250.0, 0.0086972, 477198.867398, 134.96298, jce);
 
-double argumentLatitudeMoon(double jce) =>
-  thirdOrderPolynomial(1 / 327270.0, -0.0036825, 483202.017538, 93.27191, jce);
+double _argumentLatitudeMoon(double jce) =>
+  _thirdOrderPolynomial(1 / 327270.0, -0.0036825, 483202.017538, 93.27191, jce);
 
-double ascendingLongitudeMoon(double jce) =>
-  thirdOrderPolynomial(1 / 450000.0, 0.0020708, -1934.136261, 125.04452, jce);
+double _ascendingLongitudeMoon(double jce) =>
+  _thirdOrderPolynomial(1 / 450000.0, 0.0020708, -1934.136261, 125.04452, jce);
 
-double xyTermSummation(int i, Tuple5<double, double, double, double, double> x) =>
-  x.item1 * yterms[i].item1 +
-  x.item2 * yterms[i].item2 +
-  x.item3 * yterms[i].item3 +
-  x.item4 * yterms[i].item4 +
-  x.item5 * yterms[i].item5;
+double _xyTermSummation(int i, Tuple5<double, double, double, double, double> x) =>
+  x.item1 * _yterms[i].item1 +
+  x.item2 * _yterms[i].item2 +
+  x.item3 * _yterms[i].item3 +
+  x.item4 * _yterms[i].item4 +
+  x.item5 * _yterms[i].item5;
 
-Tuple2<double, double> nutationLongAndObliquity(double jce, Tuple5<double, double, double, double, double> x) {
+Tuple2<double, double> _nutationLongAndObliquity(double jce, Tuple5<double, double, double, double, double> x) {
   var sumPsi = 0.0;
   var sumEps = 0.0;
 
-  for (int i = 0; i < yterms.length; i++) {
-    var rad = _d2r(xyTermSummation(i, x));
-    var pe = _peTerms[i];
+  for (int i = 0; i < _yterms.length; i++) {
+    final rad = _d2r(_xyTermSummation(i, x));
+    final pe = _peTerms[i];
     sumPsi += (pe.item1 + jce * pe.item2) * sin(rad);
     sumEps += (pe.item3 + jce * pe.item4) * cos(rad);
   }
@@ -763,8 +752,8 @@ Tuple2<double, double> nutationLongAndObliquity(double jce, Tuple5<double, doubl
   return Tuple2(sumPsi / 36000000, sumEps / 36000000);
 }
 
-double eclipticMeanObliquity(double jme) {
-  var u = jme / 10;
+double _eclipticMeanObliquity(double jme) {
+  final u = jme / 10;
   return 84381.448 + u * (-4680.93 + u * (-1.55 + u * (1999.25 + u * (-51.38 +
     u * (-249.67 + u * (-39.05 + u * (7.12 + u *
       (27.87 + u * (5.79 + u * 2.45))
@@ -772,55 +761,55 @@ double eclipticMeanObliquity(double jme) {
   ))));
 }
 
-double eclipticTrueObliquity(double deltaEps, double eps) =>
+double _eclipticTrueObliquity(double deltaEps, double eps) =>
   deltaEps + eps / 3600;
 
-double aberrationCorrection(double r) => -20.4898 / (3600 * r);
+double _aberrationCorrection(double r) => -20.4898 / (3600 * r);
 
-double apparentSunLongitude(double theta, double deltaPsi, double deltaTau) =>
+double _apparentSunLongitude(double theta, double deltaPsi, double deltaTau) =>
   theta + deltaPsi + deltaTau;
 
-double greenwichMeanSiderealTime(double jd, double jc) => limitDeg(
+double _greenwichMeanSiderealTime(double jd, double jc) => _limitDeg(
   280.46061837 + 360.98564736629 * (jd - 2451545.0) +
   jc * jc * (0.000387933 - jc / 38710000.0)
 );
 
-double greenwichSiderealTime(double nu0, double deltaPsi, double eps) =>
+double _greenwichSiderealTime(double nu0, double deltaPsi, double eps) =>
   nu0 + deltaPsi * cos(_d2r(eps));
 
-double geocentricRightAscention(double lambda, double eps, double beta) {
-  var lambdaRad = _d2r(lambda);
-  var epsRad = _d2r(eps);
-  return limitDeg(_r2d(atan2(sin(lambdaRad) * cos(epsRad) -
+double _geocentricRightAscention(double lambda, double eps, double beta) {
+  final lambdaRad = _d2r(lambda);
+  final epsRad = _d2r(eps);
+  return _limitDeg(_r2d(atan2(sin(lambdaRad) * cos(epsRad) -
     tan(_d2r(beta)) * sin(epsRad), cos(lambdaRad)
   )));
 }
 
-double geocentricDeclination(double beta, double eps, double lambda) {
-  var betaRad = _d2r(beta);
-  var epsRad = _d2r(eps);
+double _geocentricDeclination(double beta, double eps, double lambda) {
+  final betaRad = _d2r(beta);
+  final epsRad = _d2r(eps);
   return _r2d(asin(sin(betaRad) * cos(epsRad) +
     cos(betaRad) * sin(epsRad) * sin(_d2r(lambda))
   ));
 }
 
-double observerHourAngle(double nu, double longitude, double alphaDeg) =>
-  limitDeg(nu + longitude - alphaDeg);
+double _observerHourAngle(double nu, double longitude, double alphaDeg) =>
+  _limitDeg(nu + longitude - alphaDeg);
 
-double sunEquatorialHorizontalParallax(double r) => 8.794 / (3600 * r);
+double _sunEquatorialHorizontalParallax(double r) => 8.794 / (3600 * r);
 
-Tuple2<double, double> rightAscentionParallax(
+Tuple2<double, double> _rightAscentionParallax(
   double latitude, double elevation, double xi, double h, double delta
 ) {
-  var latRad = _d2r(latitude);
-  var xiRad = _d2r(xi);
-  var hRad = _d2r(h);
-  var deltaRad = _d2r(delta);
-  var u = atan(0.99664719 * tan(latRad));
-  var y = 0.99664719 * sin(u) + elevation * sin(latRad) / 6378140;
-  var x = cos(u) + elevation * cos(latRad) / 6378140;
+  final latRad = _d2r(latitude);
+  final xiRad = _d2r(xi);
+  final hRad = _d2r(h);
+  final deltaRad = _d2r(delta);
+  final u = atan(0.99664719 * tan(latRad));
+  final y = 0.99664719 * sin(u) + elevation * sin(latRad) / 6378140;
+  final x = cos(u) + elevation * cos(latRad) / 6378140;
 
-  var dtAlphaRad = atan2(-x * sin(xiRad) * sin(hRad),
+  final dtAlphaRad = atan2(-x * sin(xiRad) * sin(hRad),
     cos(deltaRad) - x * sin(xiRad) * cos(hRad)
   );
 
@@ -832,161 +821,161 @@ Tuple2<double, double> rightAscentionParallax(
   );
 }
 
-double topocentricElevationAngle(
+double _topocentricElevationAngle(
   double latitude, double dtPrime, double hPrime
 ) {
-  var latRad = _d2r(latitude);
-  var dtPrimeRad = _d2r(dtPrime);
+  final latRad = _d2r(latitude);
+  final dtPrimeRad = _d2r(dtPrime);
   return _r2d(asin(sin(latRad) * sin(dtPrimeRad) +
     cos(latRad) * cos(dtPrimeRad) * cos(_d2r(hPrime))
   ));
 }
 
-double atmosphericRefractionCorrection(
+double _atmosphericRefractionCorrection(
   double pressure, double temperature, double atmosRefract, double e0
 ) {
-  if (e0 < -(sunRadius + atmosRefract)) return 0;
+  if (e0 < -(_sunRadius + atmosRefract)) return 0;
   return (pressure / 1010) * (283 / (273 + temperature)) *
     1.02 / (60 * tan(_d2r(e0 + 10.3 / (e0 + 5.11))));
 }
 
-double topocentricElevationAngle2(double e0, double deltaE) => e0 + deltaE;
-double topocentricZenithAngle(double e) => 90 - e;
+double _topocentricElevationAngle2(double e0, double deltaE) => e0 + deltaE;
+double _topocentricZenithAngle(double e) => 90 - e;
 
-double topocentricAzimuthAngleAstro(
+double _topocentricAzimuthAngleAstro(
   double hPrime, double latitude, double dtPrime
 ) {
-  var hPrimeRad = _d2r(hPrime);
-  var latRad = _d2r(latitude);
-  return limitDeg(_r2d(atan2(sin(hPrimeRad),
+  final hPrimeRad = _d2r(hPrime);
+  final latRad = _d2r(latitude);
+  return _limitDeg(_r2d(atan2(sin(hPrimeRad),
     cos(hPrimeRad) * sin(latRad) - tan(_d2r(dtPrime)) * cos(latRad)
   )));
 }
 
-double topocentricAzimuthAngle(double azimuthAstro) =>
-  limitDeg(azimuthAstro + 180);
+double _topocentricAzimuthAngle(double azimuthAstro) =>
+  _limitDeg(azimuthAstro + 180);
 
-double surfaceIncidenceAngle(
+double _surfaceIncidenceAngle(
   double zenith, double azimuthAstro, double azmRotation, double slope,
 ) {
-  double zenithRad = _d2r(zenith);
-  double slopeRad = _d2r(slope);
+  final zenithRad = _d2r(zenith);
+  final slopeRad = _d2r(slope);
 
   return _r2d(acos(cos(zenithRad) * cos(slopeRad) +
     sin(slopeRad) * sin(zenithRad) * cos(_d2r(azimuthAstro - azmRotation))
   ));
 }
 
-double sunMeanLongitude(double jme) =>
-  limitDeg(280.4664567 + jme * (360007.6982779 + jme * (0.03032028 + jme *
+double _sunMeanLongitude(double jme) =>
+  _limitDeg(280.4664567 + jme * (360007.6982779 + jme * (0.03032028 + jme *
     (1 / 49931.0 + jme * (-1 / 15300 + jme * (-1 / 2000000))))));
 
-double eot(double m, double alpha, double delPsi, double epsilon) =>
-  limitMinutes(4 * (m - 0.0057183 - alpha + delPsi * cos(_d2r(epsilon))));
+double _eot(double m, double alpha, double delPsi, double epsilon) =>
+  _limitMinutes(4 * (m - 0.0057183 - alpha + delPsi * cos(_d2r(epsilon))));
 
-double approxSunTransitionTime(double alphaZero, double longitude, double nu) =>
+double _approxSunTransitionTime(double alphaZero, double longitude, double nu) =>
   (alphaZero - longitude - nu) / 360;
 
-double sunHourAngleAtRiseSet(double latitude, double dtZero, double h0Prime) {
+double _sunHourAngleAtRiseSet(double latitude, double dtZero, double h0Prime) {
   var h0 = -99999.0;
-  var latitudeRad = _d2r(latitude);
-  var dtZeroRad = _d2r(dtZero);
-  var argument = (sin(_d2r(h0Prime)) - sin(latitudeRad) * sin(dtZeroRad)) /
+  final latitudeRad = _d2r(latitude);
+  final dtZeroRad = _d2r(dtZero);
+  final argument = (sin(_d2r(h0Prime)) - sin(latitudeRad) * sin(dtZeroRad)) /
     (cos(latitudeRad) * cos(dtZeroRad));
-  if (argument.abs() <= 1) h0 = limitDeg180(_r2d(acos(argument)));
+  if (argument.abs() <= 1) h0 = _limitDeg180(_r2d(acos(argument)));
   return h0;
 }
 
-double sunRiseAndSet(
+double _sunRiseAndSet(
   double mRts, double hRts, double dtPrime, double latitude,
   double hPrime, double h0Prime, int sun) =>
     mRts + (hRts -  h0Prime) /
     (360 * cos(_d2r(dtPrime)) * cos(_d2r(latitude)) * sin(_d2r(hPrime)));
 
-double rtsAlphaDeltaPrime(Tuple3<double, double, double> ad, double n) {
+double _rtsAlphaDeltaPrime(Tuple3<double, double, double> ad, double n) {
   var a = ad.item2 - ad.item1;
   var b = ad.item3 - ad.item2;
 
-  if (a.abs() >= 2) a = limitZero2One(a);
-  if (b.abs() >= 2) b = limitZero2One(b);
+  if (a.abs() >= 2) a = _limitZero2One(a);
+  if (b.abs() >= 2) b = _limitZero2One(b);
 
   return ad.item2 + n * (a + b + (b - a) * n) / 2;
 }
 
-double rtsSunAltitude(double latitude, double deltaPrime, double hPrime) {
-  var latitudeRad = _d2r(latitude);
-  var dtPrimeRad = _d2r(deltaPrime);
+double _rtsSunAltitude(double latitude, double deltaPrime, double hPrime) {
+  final latitudeRad = _d2r(latitude);
+  final dtPrimeRad = _d2r(deltaPrime);
   return _r2d(asin(sin(latitudeRad) * sin(dtPrimeRad) +
     cos(latitudeRad) * cos(dtPrimeRad) * cos(_d2r(hPrime)))
   );
 }
 
-void calculateGeoSun(
-  out, SPAParams params, SPAIntermediate it, double jd, double deltaT
+void _calculateGeoSun(
+  SPAParams params, SPAIntermediate it, double jd, double deltaT
 ) {
-  it.jc = julianCentury(jd);
+  it.jc = _julianCentury(jd);
 
-  it.jde = julianEphemerisDay(jd, deltaT);
-  it.jce = julianEphemerisCentury(it.jde);
-  it.jme = julianEphemerisMillenium(it.jce);
+  it.jde = _julianEphemerisDay(jd, deltaT);
+  it.jce = _julianEphemerisCentury(it.jde);
+  it.jme = _julianEphemerisMillenium(it.jce);
 
-  it.l = earthHeliocentricLongitude(it.jme);
-  it.b = earthHeliocentricLatitude(it.jme);
-  it.r = earthRadiusVector(it.jme);
+  it.l = _earthHeliocentricLongitude(it.jme);
+  it.b = _earthHeliocentricLatitude(it.jme);
+  it.r = _earthRadiusVector(it.jme);
 
-  it.theta = geocentricLongitude(it.l);
-  it.beta = geocentricLatitude(it.b);
+  it.theta = _geocentricLongitude(it.l);
+  it.beta = _geocentricLatitude(it.b);
 
   it.x = Tuple5(
-    meanElongationMoonSun(it.jce),
-    meanAnomalySun(it.jce),
-    meanAnomalyMoon(it.jce),
-    argumentLatitudeMoon(it.jce),
-    ascendingLongitudeMoon(it.jce),
+    _meanElongationMoonSun(it.jce),
+    _meanAnomalySun(it.jce),
+    _meanAnomalyMoon(it.jce),
+    _argumentLatitudeMoon(it.jce),
+    _ascendingLongitudeMoon(it.jce),
   );
 
-  var dl = nutationLongAndObliquity(it.jce, it.x);
+  final dl = _nutationLongAndObliquity(it.jce, it.x);
   it.delPsi = dl.item1;
   it.delEps = dl.item2;
 
-  it.epsilon0 = eclipticMeanObliquity(it.jme);
-  it.epsilon = eclipticTrueObliquity(it.delEps, it.epsilon0);
+  it.epsilon0 = _eclipticMeanObliquity(it.jme);
+  it.epsilon = _eclipticTrueObliquity(it.delEps, it.epsilon0);
 
-  it.delTau = aberrationCorrection(it.r);
-  it.lamda = apparentSunLongitude(it.theta, it.delPsi, it.delTau);
-  it.nu0 = greenwichMeanSiderealTime(jd, it.jc);
-  it.nu = greenwichSiderealTime(it.nu0, it.delPsi, it.epsilon);
+  it.delTau = _aberrationCorrection(it.r);
+  it.lamda = _apparentSunLongitude(it.theta, it.delPsi, it.delTau);
+  it.nu0 = _greenwichMeanSiderealTime(jd, it.jc);
+  it.nu = _greenwichSiderealTime(it.nu0, it.delPsi, it.epsilon);
 
-  it.alpha = geocentricRightAscention(it.lamda, it.epsilon, it.beta);
-  it.delta = geocentricDeclination(it.beta, it.epsilon, it.lamda);
+  it.alpha = _geocentricRightAscention(it.lamda, it.epsilon, it.beta);
+  it.delta = _geocentricDeclination(it.beta, it.epsilon, it.lamda);
 }
 
-void calculateEotAndSunRiseTransitSet(
+void _calculateEotAndSunRiseTransitSet(
   SPAOutput out, SPAParams params, SPAIntermediate it
 ) {
-  var m = sunMeanLongitude(it.jme);
-  it.eot = eot(m, it.alpha, it.delPsi, it.epsilon);
+  final m = _sunMeanLongitude(it.jme);
+  it.eot = _eot(m, it.alpha, it.delPsi, it.epsilon);
 
-  var sunIt = SPAIntermediate();
-  var sunJd = julianDay(DateTime.utc(
+  final sunIt = SPAIntermediate();
+  var sunJd = _julianDay(DateTime.utc(
     params.time.year, params.time.month, params.time.day
   ), 0, 0, 0);
-  calculateGeoSun(out, params, sunIt, sunJd--, 0);
-  var nu = sunIt.nu;
+  _calculateGeoSun(params, sunIt, sunJd--, 0);
+  final nu = sunIt.nu;
 
-  calculateGeoSun(out, params, sunIt, sunJd++, 0);
-  var nd = Tuple2(sunIt.alpha, sunIt.delta);
-  calculateGeoSun(out, params, sunIt, sunJd++, 0);
-  var zd = Tuple2(sunIt.alpha, sunIt.delta);
-  calculateGeoSun(out, params, sunIt, sunJd++, 0);
-  var pd = Tuple2(sunIt.alpha, sunIt.delta);
+  _calculateGeoSun(params, sunIt, sunJd++, 0);
+  final nd = Tuple2(sunIt.alpha, sunIt.delta);
+  _calculateGeoSun(params, sunIt, sunJd++, 0);
+  final zd = Tuple2(sunIt.alpha, sunIt.delta);
+  _calculateGeoSun(params, sunIt, sunJd++, 0);
+  final pd = Tuple2(sunIt.alpha, sunIt.delta);
 
-  var alpha = Tuple3(nd.item1, zd.item1, pd.item1);
-  var delta = Tuple3(nd.item2, zd.item2, pd.item2);
+  final alpha = Tuple3(nd.item1, zd.item1, pd.item1);
+  final delta = Tuple3(nd.item2, zd.item2, pd.item2);
 
-  var mRtsTransit = approxSunTransitionTime(alpha.item2, params.longitude, nu);
-  var h0Prime = -(sunRadius + params.atmosRefract);
-  var h0 = sunHourAngleAtRiseSet(params.latitude, delta.item2, h0Prime);
+  final mRtsTransit = _approxSunTransitionTime(alpha.item2, params.longitude, nu);
+  final h0Prime = -(_sunRadius + params.atmosRefract);
+  final h0 = _sunHourAngleAtRiseSet(params.latitude, delta.item2, h0Prime);
 
   if (h0 < 0) {
     it.srha = it.ssha = it.sta = out.sunTransit = out.sunrise = out.sunset =
@@ -994,41 +983,41 @@ void calculateEotAndSunRiseTransitSet(
     return;
   }
 
-  var h0Dfrac = h0 / 360;
-  var mRts = Tuple3(
-    limitZero2One(mRtsTransit),
-    limitZero2One(mRtsTransit - h0Dfrac),
-    limitZero2One(mRtsTransit + h0Dfrac),
+  final h0Dfrac = h0 / 360;
+  final mRts = Tuple3(
+    _limitZero2One(mRtsTransit),
+    _limitZero2One(mRtsTransit - h0Dfrac),
+    _limitZero2One(mRtsTransit + h0Dfrac),
   );
 
   Tuple5<double, double, double, double, double> calcpr(double m) {
-    var nuRts = nu + 360.985647 * m;
-    var n = m + params.deltaT / 86400;
-    var alphaPrime = rtsAlphaDeltaPrime(alpha, n);
-    var deltaPrime = rtsAlphaDeltaPrime(delta, n);
-    var hPrime = limitDeg180pm(nuRts + params.longitude - alphaPrime);
-    var hRts = rtsSunAltitude(params.latitude, deltaPrime, hPrime);
+    final nuRts = nu + 360.985647 * m;
+    final n = m + params.deltaT / 86400;
+    final alphaPrime = _rtsAlphaDeltaPrime(alpha, n);
+    final deltaPrime = _rtsAlphaDeltaPrime(delta, n);
+    final hPrime = _limitDeg180pm(nuRts + params.longitude - alphaPrime);
+    final hRts = _rtsSunAltitude(params.latitude, deltaPrime, hPrime);
     return Tuple5(nuRts, alphaPrime, deltaPrime, hPrime, hRts);
   }
 
-  var prTrans = calcpr(mRts.item1);
-  var prRise = calcpr(mRts.item2);
-  var prSet = calcpr(mRts.item3);
+  final prTrans = calcpr(mRts.item1);
+  final prRise = calcpr(mRts.item2);
+  final prSet = calcpr(mRts.item3);
 
   it.srha = prRise.item4;
   it.ssha = prSet.item4;
   it.sta = prTrans.item5;
 
-  var timezone = params.timeZone;
+  final timezone = params.timeZone;
 
-  out.sunTransit = dayFrac2LocalHr(mRts.item1 - prTrans.item4 / 360, timezone);
+  out.sunTransit = _dayFrac2LocalHr(mRts.item1 - prTrans.item4 / 360, timezone);
 
-  out.sunrise = dayFrac2LocalHr(sunRiseAndSet(
+  out.sunrise = _dayFrac2LocalHr(_sunRiseAndSet(
     mRts.item2, prRise.item5, prRise.item3,
     params.latitude, prRise.item4, h0Prime, 1,
   ), timezone);
 
-  out.sunset = dayFrac2LocalHr(sunRiseAndSet(
+  out.sunset = _dayFrac2LocalHr(_sunRiseAndSet(
     mRts.item3, prSet.item5, prSet.item3,
     params.latitude, prSet.item4, h0Prime, 1,
   ), timezone);
@@ -1046,8 +1035,8 @@ SPAOutput spaCalculate(SPAParams params, {
   /// (defaults to true)
   bool sun = true,
 }) {
-  var out = SPAOutput();
-  var it = intermediate ??= SPAIntermediate();
+  final out = SPAOutput();
+  final it = intermediate ??= SPAIntermediate();
 
   assert(params.time.year >= -2000 && params.time.year <= 6000);
   assert(params.pressure >= 0 && params.pressure <= 5000);
@@ -1060,17 +1049,15 @@ SPAOutput spaCalculate(SPAParams params, {
   assert(!incidence || params.slope <= 360);
   assert(!incidence || params.azmRotation <= 360);
 
-  it.jd = julianDay(
+  it.jd = _julianDay(
     params.time, params.second, params.timeZone, params.deltaUtl
   );
-  calculateGeoSun(
-    out, params, it, it.jd, params.deltaT
-  );
+  _calculateGeoSun(params, it, it.jd, params.deltaT);
 
-  it.h = observerHourAngle(it.nu, params.longitude, it.alpha);
-  it.xi  = sunEquatorialHorizontalParallax(it.r);
-  
-  var rap = rightAscentionParallax(
+  it.h = _observerHourAngle(it.nu, params.longitude, it.alpha);
+  it.xi  = _sunEquatorialHorizontalParallax(it.r);
+
+  final rap = _rightAscentionParallax(
     params.latitude, params.elevation, it.xi, it.h, it.delta
   );
   it.delAlpha = rap.item1;
@@ -1079,28 +1066,28 @@ SPAOutput spaCalculate(SPAParams params, {
   it.alphaPrime = it.alpha + it.delAlpha;
   it.hPrime = it.h - it.delAlpha;
 
-  it.e0 = topocentricElevationAngle(params.latitude, it.delPrime, it.hPrime);
-  it.delE = atmosphericRefractionCorrection(
+  it.e0 = _topocentricElevationAngle(params.latitude, it.delPrime, it.hPrime);
+  it.delE = _atmosphericRefractionCorrection(
     params.pressure, params.temperature, params.atmosRefract, it.e0
   );
 
-  it.e = topocentricElevationAngle2(it.e0, it.delE);
+  it.e = _topocentricElevationAngle2(it.e0, it.delE);
 
-  out.zenith = topocentricZenithAngle(it.e);
-  out.azimuthAstro = topocentricAzimuthAngleAstro(
+  out.zenith = _topocentricZenithAngle(it.e);
+  out.azimuthAstro = _topocentricAzimuthAngleAstro(
     it.hPrime, params.latitude, it.delPrime
   );
 
-  out.azimuth = topocentricAzimuthAngle(out.azimuthAstro);
+  out.azimuth = _topocentricAzimuthAngle(out.azimuthAstro);
 
   if (incidence) {
-    out.incidence = surfaceIncidenceAngle(
+    out.incidence = _surfaceIncidenceAngle(
       out.zenith, out.azimuthAstro, params.azmRotation, params.slope
     );
   }
 
   if (sun) {
-    calculateEotAndSunRiseTransitSet(out, params, it);
+    _calculateEotAndSunRiseTransitSet(out, params, it);
   }
 
   return out;

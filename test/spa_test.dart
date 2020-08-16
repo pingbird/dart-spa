@@ -1,4 +1,4 @@
-@Timeout(const Duration(seconds: 1000))
+@Timeout(Duration(seconds: 1000))
 
 import 'dart:convert';
 import 'dart:io';
@@ -10,16 +10,16 @@ bool doubleEq(double a, double b) =>
   (a - b).abs() < 0.000001;
 
 Future<bool> testCsv(String fileName) async {
-  var file = File(fileName);
-  if (!await file.exists()) return false;
+  final file = File(fileName);
+  if (!file.existsSync()) return false;
 
   test(fileName, () async {
     bool first = true;
 
     int lineNum = 0;
 
-    await for (var line in
-      LineSplitter().bind(Utf8Decoder().bind(file.openRead()))
+    await for (final line in
+      const LineSplitter().bind(utf8.decoder.bind(file.openRead()))
     ) {
       lineNum++;
 
@@ -28,17 +28,17 @@ Future<bool> testCsv(String fileName) async {
         continue;
       }
 
-      var row = line.split(",");
-      var params = SPAParams.list(row.map((e) => num.parse(e)).toList());
+      final row = line.split(',');
+      final params = SPAParams.list(row.map((e) => num.parse(e)).toList());
 
-      var itm = SPAIntermediate();
-      var output = spaCalculate(params, intermediate: itm);
+      final itm = SPAIntermediate();
+      final output = spaCalculate(params, intermediate: itm);
 
       void check(double res, int idx) {
         if (!doubleEq(res, double.parse(row[idx]))) {
           throw TestFailure(
-            "Test failed at line $lineNum\n"
-              "Row $idx: expected ${row[idx]} but got $res"
+            'Test failed at line $lineNum\n'
+            'Row $idx: expected ${row[idx]} but got $res'
           );
         }
       }
@@ -65,7 +65,7 @@ Future main() async {
   //
   // If dataset.csv is not found, fall back to the smaller version
   // which contains the first 1,000 rows of the full dataset.
-  if (!await testCsv("test/dataset.csv")) {
-    await testCsv("test/dataset_small.csv");
+  if (!await testCsv('test/dataset.csv')) {
+    await testCsv('test/dataset_small.csv');
   }
 }

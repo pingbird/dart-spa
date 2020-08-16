@@ -27,13 +27,13 @@ main() {
     elevation: 191,
   ));
 
-  print("zenith: ${output.zenith}");
-  print("azimuth_astro: ${output.azimuthAstro}");
-  print("azimuth: ${output.azimuth}");
-  print("incidence: ${output.incidence}");
-  print("suntransit: ${output.sunTransit}");
-  print("sunrise: ${output.sunrise}");
-  print("sunset: ${output.sunset}");
+  print('zenith: ${output.zenith}');
+  print('azimuth_astro: ${output.azimuthAstro}');
+  print('azimuth: ${output.azimuth}');
+  print('incidence: ${output.incidence}');
+  print('suntransit: ${output.sunTransit}');
+  print('sunrise: ${output.sunrise}');
+  print('sunset: ${output.sunset}');
 }
 ```
 ```
