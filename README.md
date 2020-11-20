@@ -1,7 +1,7 @@
 # Solar Positioning Algorithm - Calculate the position of the sun at arbitrary coordinates.
 
 ## About
-This is a Dart implementation of the Solar Position Algorithm (SPA) by Ibrahim Reda and Afshin Andreas which is used by the U.S. government for radiology and energy purposes.
+This is a Dart implementation of the Solar Position Algorithm (SPA) by Ibrahim Reda and Afshin Andreas which is used by the U.S. govornment for radiology and energy purposes.
 See the paper here: https://www.nrel.gov/docs/fy08osti/34302.pdf
 
 Given an observers coordinates and DateTime it can calculate the position of the sun and other information such as when the sun rises and sets.
