@@ -24,9 +24,9 @@ void printCity(
     '${name.padRight(13)} | '
     '${fmtHHMM(time.hour, time.minute)} | '
     'Zenith: ${fmtDeg(sp.zenith)} | '
-    'Sunrise: ${fmtHHMM(sp.sunrise.floor(), (sp.sunrise * 60).floor() % 60)} | '
-    'Transit: ${fmtHHMM(sp.sunTransit.floor(), (sp.sunset * 60).floor() % 60)} | '
-    'Sunset: ${fmtHHMM(sp.sunset.floor(), (sp.sunset * 60).floor() % 60)}'
+    'Sunrise: ${fmtHHMM(sp.sunrise!.floor(), (sp.sunrise! * 60).floor() % 60)} | '
+    'Transit: ${fmtHHMM(sp.sunTransit!.floor(), (sp.sunset! * 60).floor() % 60)} | '
+    'Sunset: ${fmtHHMM(sp.sunset!.floor(), (sp.sunset! * 60).floor() % 60)}'
   );
 }
 
