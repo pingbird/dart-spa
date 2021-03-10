@@ -24,10 +24,10 @@ void main() {
       volatile(res.zenith);
       volatile(res.azimuthAstro);
       volatile(res.azimuth);
-      volatile(res.incidence);
-      volatile(res.sunTransit);
-      volatile(res.sunrise);
-      volatile(res.sunset);
+      volatile(res.incidence!);
+      volatile(res.sunTransit!);
+      volatile(res.sunrise!);
+      volatile(res.sunset!);
     }
 
     final t1 = DateTime.now().microsecondsSinceEpoch;

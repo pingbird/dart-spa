@@ -46,10 +46,10 @@ Future<bool> testCsv(String fileName) async {
       check(output.zenith, 17);
       check(output.azimuthAstro, 18);
       check(output.azimuth, 19);
-      check(output.incidence, 20);
-      check(output.sunTransit, 21);
-      check(output.sunrise, 22);
-      check(output.sunset, 23);
+      check(output.incidence!, 20);
+      check(output.sunTransit!, 21);
+      check(output.sunrise!, 22);
+      check(output.sunset!, 23);
     }
   });
 

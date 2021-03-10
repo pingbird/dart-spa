@@ -3,12 +3,13 @@ description: Cities example for the spa plugin
 version: 1.0.0
 homepage: https://github.com/PixelToast/dart-spa
 author: Andre Lipke <andre.lipke@gmail.com>
+publish_to: none
 
 environment:
   sdk: '>=2.2.0 <3.0.0'
 
 dependencies:
-  timezone: ^0.5.4
+  timezone: ^0.6.1
   spa:
     path: ../../
 
