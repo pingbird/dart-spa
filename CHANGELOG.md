@@ -1,3 +1,7 @@
+## 1.3.0
+
+- Migrate to newer versions of Dart
+
 ## 1.2.0-nullsafety.0
 
 - Migrate to null safety
