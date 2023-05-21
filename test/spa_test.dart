@@ -6,8 +6,7 @@ import 'dart:io';
 import 'package:spa/src/spa.dart';
 import 'package:test/test.dart';
 
-bool doubleEq(double a, double b) =>
-  (a - b).abs() < 0.000001;
+bool doubleEq(double a, double b) => (a - b).abs() < 0.000001;
 
 Future<bool> testCsv(String fileName) async {
   final file = File(fileName);
@@ -18,12 +17,12 @@ Future<bool> testCsv(String fileName) async {
 
     int lineNum = 0;
 
-    await for (final line in
-      const LineSplitter().bind(utf8.decoder.bind(file.openRead()))
-    ) {
+    await for (final line
+        in const LineSplitter().bind(utf8.decoder.bind(file.openRead()))) {
       lineNum++;
 
-      if (first) { // Skip column names
+      if (first) {
+        // Skip column names
         first = false;
         continue;
       }
@@ -36,10 +35,8 @@ Future<bool> testCsv(String fileName) async {
 
       void check(double res, int idx) {
         if (!doubleEq(res, double.parse(row[idx]))) {
-          throw TestFailure(
-            'Test failed at line $lineNum\n'
-            'Row $idx: expected ${row[idx]} but got $res'
-          );
+          throw TestFailure('Test failed at line $lineNum\n'
+              'Row $idx: expected ${row[idx]} but got $res');
         }
       }
 
@@ -56,7 +53,7 @@ Future<bool> testCsv(String fileName) async {
   return true;
 }
 
-Future main() async {
+Future<void> main() async {
   // The full dataset is 1,000,000 rows containing randomly generated input
   // sets along with calculation results from the NREL C Implementation of SPA.
   //

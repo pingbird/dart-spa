@@ -1,24 +1,28 @@
 import 'package:spa/spa.dart';
 import 'package:timezone/standalone.dart';
-import 'package:timezone/timezone.dart';
 
 void printCity(
-  String name, String timezone, double latitude, double longitude
+  String name,
+  String timezone,
+  double latitude,
+  double longitude,
 ) {
-  var location = getLocation(timezone);
-  var time = TZDateTime.now(location);
+  final location = getLocation(timezone);
+  final time = TZDateTime.now(location);
 
-  var sp = spaCalculate(SPAParams(
+  final sp = spaCalculate(SPAParams(
     time: time,
     latitude: latitude,
     longitude: longitude,
   ));
 
-  String fmtHHMM(int hours, int mins) =>
-    '${hours.toString().padLeft(2)}:${mins.toString().padLeft(2, '0')}';
+  String fmtHHMM(int hours, int mins) {
+    return '${hours.toString().padLeft(2)}:${mins.toString().padLeft(2, '0')}';
+  }
 
-  String fmtDeg(double deg) =>
-    '${deg.toStringAsFixed(2).padLeft(6)}°';
+  String fmtDeg(double deg) {
+    return '${deg.toStringAsFixed(2).padLeft(6)}°';
+  }
 
   print(
     '${name.padRight(13)} | '
@@ -26,7 +30,7 @@ void printCity(
     'Zenith: ${fmtDeg(sp.zenith)} | '
     'Sunrise: ${fmtHHMM(sp.sunrise!.floor(), (sp.sunrise! * 60).floor() % 60)} | '
     'Transit: ${fmtHHMM(sp.sunTransit!.floor(), (sp.sunset! * 60).floor() % 60)} | '
-    'Sunset: ${fmtHHMM(sp.sunset!.floor(), (sp.sunset! * 60).floor() % 60)}'
+    'Sunset: ${fmtHHMM(sp.sunset!.floor(), (sp.sunset! * 60).floor() % 60)}',
   );
 }
 

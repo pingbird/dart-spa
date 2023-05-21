@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:spa/spa.dart';
 
 void main() {
@@ -13,14 +15,13 @@ void main() {
 
     for (int i = 0; i < count; i++) {
       final res = spaCalculate(SPAParams(
-        time: DateTime.fromMillisecondsSinceEpoch(1562212800000 + (
-          86400000 * (i / count)
-        ).floor()),
+        time: DateTime.fromMillisecondsSinceEpoch(
+            1562212800000 + (86400000 * (i / count)).floor()),
         longitude: -83.0458,
         latitude: 42.3314,
         elevation: 100,
       ));
-      
+
       volatile(res.zenith);
       volatile(res.azimuthAstro);
       volatile(res.azimuth);
